@@ -1,0 +1,238 @@
+---
+title: "README"
+author: "V.Mahadev"
+date: "Friday, August 22, 2014"
+output: html_document
+---
+
+##Procedure Steps##
+
+###Data Inspection###
+
+Load all reference tables
+
+#1. Activity Labels#
+  a. Read Activity Labels from activity_labels.txt
+```{r}
+dfActivityLabels=read.table("data/activity_labels.txt",col.names=c("Code","Activity"));
+nrow(dfActivityLabels)
+```
+  
+  b. Data Inspection :
+      
+    - Inspection Strategy   : Check whether it require any cleaning or modifications
+    - Inspection Procedure  : Display the entire list or use View(list) as it is small list(use nrow)  
+```{r}
+print(dfActivityLabels)
+```    
+		- Observation     : Attributes naming conventions are clean and clear 
+                          Dataset looks clean. Appropriate attribute names have been used
+		- Action Strategy : Doesn't require any modifications/transformations
+		- Action          : None
+#2. Labelled Activity Extraction#
+
+###STEP 2: Combine Labelled Activity from Training and Test set###
+```{r}
+  #2. Combine Labelled Activity from Training and Test set
+  #a. Read Activity Labels from the Training
+  yTrainingActivityLabels <- read.table('data/train/y_train.txt');
+
+  #b. Read Subjects Activity Identity column  from Test set
+  yTestActivityLabels <- read.table('data/test/y_test.txt');
+
+  #c. Combine both Training and Test Activity Identity rows of the subjects
+  #ActivityLabels <- rbind(yTrainingActivityLabels,yTestActivityLabels)
+    ActivityLabels<- mapply(c,yTrainingActivityLabels,yTestActivityLabels)
+
+  #d. Prepare Labelled Activity of the Subjects Column for the tidy dataset
+  Activity<-factor(ActivityLabels,label=dfActivityLabels[,2])
+```
+
+#3. Features Extraction#
+
+###STEP 3. Selection and Transformation of Features List###
+
+	a. Read Features List from features.txt
+```{r}
+    dfFeatureList=read.table("data/features.txt",col.names=c("Code","Feature"))
+```
+
+	b.  Inspection of the list
+		- Inspection Strategy : Check whether it require any cleaning or modifications
+		- Inspection Procedure: 
+			  - View list and scroll through all 561 
+```{r}
+head(dfFeatureList)
+summary(dfFeatureList)
+#print(dfFeatureList)
+#view(dfFeatureList)
+```    
+    - Observation: Attributes naming conventions are clean and the same is usable
+			     1. Some of the data values have () and some have ","
+           2. This definitely needs modification and transformations because these feature values will be used as column names in the final dataset used for analysis.
+           Pattern Type                           Occurences  regex
+				1. tBodyAcc-mean()-X                    - Multiple
+				2. tBodyAcc-arCoeff()-X,1               - Multiple
+				3. tBodyAcc-correlation()-X,Y           - Multiple
+				4. fBodyAcc-bandsEnergy()-1,8           - Multiple
+				5. angle(tBodyAccJerkMean),gravityMean) - Single  
+
+   		Action Strategy : Strategy for naming these variables
+				1. Remove or replace "()" in all the values 
+        2. Replace "," with more meaningful/appropriate letter or word
+        3. Procedure should be reversible or have a mapping table(JIC)
+   		
+      Action :
+           Pattern Type                           Occurences  regex             Replace With
+				1. tBodyAcc-mean()-X             	    - Multiple       ()                   None
+				2. tBodyAcc-arCoeff()-X,1		         - Multiple      -[A-Z](,)[0-9]         (_)
+				3. tBodyAcc-correlation()-X,Y           - Multiple   [-][A-Z]{1}[,][A-Z]{1} (_)
+				4. fBodyAcc-bandsEnergy()-1,8           - Multiple   [0-9]+(,)[0-9]+        (_)
+				5. angle(tBodyAccJerkMean),gravityMean) - Single     Manual Removal         NOne
+        
+        - Test regex Patterns
+ 
+```{r}
+  l<-c("tBodyAcc-arCoeff()-X,1","tBodyAcc-correlation()-X,Y","fBodyAcc-bandsEnergy()-1,8","angle(tBodyAccJerkMean),gravityMean)")
+  grepl("\\(|\\)",l)
+  grepl("[0-9]+,[0-9]+",l)
+  grepl("-[A-Z],[0-9]",l)
+  grepl("[-][a-zA-Z][,][a-zA-Z]",l)
+
+```
+
+Though these functions returns values expected when run on the data frame failed to produce consistent behaviour hence used substitue functions 
+
+```{r}
+#a. Transformation of Feature names
+    #Remove open brackets
+    dfModifiedFeatureList$Feature<-sub("\\(","",dfFeatureList$Feature)
+
+    #Remove closing brackets
+    dfModifiedFeatureList$Feature<-sub("\\)","",dfModifiedFeatureList$Feature)
+
+    #Remove closing brackets
+    dfModifiedFeatureList$Feature<-sub("\\)","",dfModifiedFeatureList$Feature)
+    
+    #Replace hyphen character with an underscore
+    dfModifiedFeatureList$Feature<-sub("-","_",dfModifiedFeatureList$Feature)
+
+    #Replace hyphen character with an underscore
+    dfModifiedFeatureList$Feature<-sub("-","_",dfModifiedFeatureList$Feature)
+
+    #Replace comma character with an underscore
+    dfModifiedFeatureList$Feature<-sub(",","_",dfModifiedFeatureList$Feature)
+
+    #verify
+    #ifelse(length(levels(factor(dfModifiedFeatureList$Feature)))==length(levels(factor(dfFeatureList$Feature))),"Equal","Not Equal")
+
+    #Substitute time domain t with TD
+    dfModifiedFeatureList$Feature<-sub("tBody","TD_Body",dfModifiedFeatureList$Feature)
+    
+    #Substitute time domain t with TD
+    dfModifiedFeatureList$Feature<-sub("tGravity","TD_Gravity",dfModifiedFeatureList$Feature)
+
+    #Substitute freq domain f with FD
+    dfModifiedFeatureList$Feature<-sub("fGravity","FD_Gravity",dfModifiedFeatureList$Feature)
+
+    #Substitute freq domain f with FD
+    dfModifiedFeatureList$Feature<-sub("fBody","FD_Body",dfModifiedFeatureList$Feature)
+
+    #Substitute angle with Angle_
+    dfModifiedFeatureList$Feature<-sub("angle","Angle_",dfModifiedFeatureList$Feature)
+
+    #Not mandatory
+    #convert all uppercase characters in the names to lowercase as per defn of tidy data
+    dfModifiedFeatureList$Feature<-tolower(dfModifiedFeatureList$Feature)
+
+  #b.Sorting 
+    #Require sorting of code hence Sort using arrange 
+
+    require(plyr)
+    dfModifiedFeatureList<-arrange(dfModifiedFeatureList,Code)
+
+```
+
+#Selection of Measures#
+##To prepare the tidydata.txt for analysis##
+
+As per the problem statement need to extract only standard and mean values of each measure (feature) and since its a three dimensional space movement and activity observation we need to have ***magnitude, angle and directions values***.
+
+As per the technical specification documentation of sensor data capturing of Samsung S4 (At that point in time assuming Android OS is the only OS ported on Samsung S4) the following readings are captured
+
+1. Accelerometer
+2. Gyro
+
+In addition to the above readings the anroid OS provides additional gravitational component measurements for corrections.
+
+Considering the above points the following variables have been selected from the feature list. Frequency and time domain signals and computed features are dependent on the frequency components and hence mean frequecies have been included.
+
+tBodyAcc      :1,2,3,4,5,6,     	        
+
+tGravityAcc   :41,42,43,44,45,46 		    
+
+tBodyAccJerk  :81,82,83,84,85,86 		    
+
+tBodyGyro     :121,122,123,124,125,126
+
+tBodyGryoJerk :161,162,163,164,165,166 	
+
+tBodyAccMag   :201,202                 	
+
+tGravityAccMag:214,215 			            
+
+tBodyAccJerkMag: 227,228 			            
+
+tBodyGyroMag:240,241				            
+
+tBodyGyroJerkMag:253,254 			            
+
+fBodyAcc:266,267,268,269,270,271 	
+
+fBodyAccJerk-mean()-X :345,346,347,348,349,350 	
+
+fBodyGyro-mean()-X: 424,425,426,427,428,429 	
+
+fBodyAccMag-mean(): 503,504 			            
+
+Angles: 555,556,557,558,559,560,561
+
+```{r}
+#c.Select Measures - Std and Means of Measures
+  SelectedFieldsOfMeasurementMeanStdValues <- c(1,2,3,4,5,6,41,42,43,44,45,46,81,82,83,84,85,86,
+                                                121,122,123,124,125,126,161,162,163,164,165,166,
+                                                201,202,214,215,227,228,240,241,253,254,266,267,268,269,270,271,
+                                                345,346,347,348,349,350,373,374,375,
+                                                424,425,426,427,428,429,452,453,454,
+                                                503,504,513,555,556,557,558,559,560,561)
+    #removed 526,539,552
+  #d. Extract names of Selected Measures (Means and Std plus Freq Component and Angle)
+  FieldNames<-tolower(dfModifiedFeatureList[SelectedFieldsOfMeasurementMeanStdValues,2])
+
+  #prepare column names for the final result set
+  ColNames<-t(cbind(c("Subject","Activity",t(FieldNames))))
+ 
+  ColNames
+```
+
+Inspect the values
+
+#4. Extract Subjects #
+###STEP 1:###
+
+#.Subjects Identity Column 
+```{r}
+    #a.Read Subjects Identity Column from the Training Set
+    SubjectsFromTainingSet<-read.table('data/train/subject_train.txt')
+
+    #b. Read Subjects Identity Column from the Test Set
+    SubjectsFromTestSet<-read.table('data/test/subject_test.txt')
+
+    #c. Combine Subjects Identity Column of both Training and Test set 
+    Subjects<-as.vector(c(SubjectsFromTainingSet,SubjectsFromTestSet,recursive=TRUE))
+length(Subjects)
+levels(factor(Subjects))
+```
+
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
