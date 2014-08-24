@@ -61,6 +61,23 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 
 <div id="procedure-steps" class="section level2">
 <h2>Procedure Steps</h2>
+</div>
+<div id="task" class="section level2">
+<h2>Task:</h2>
+<div id="prepare-a-tidydata-set-from-the-given-dataset-and-documentation-made-available" class="section level3">
+<h3>Prepare a tidydata set from the given dataset and documentation made available</h3>
+<p>Disclaimer : Code book for each variable is missing Visit google android web site to collect the details (references have been made in the codebook.md prepared as part of this task)</p>
+<p>Task has been further divided as below</p>
+<pre><code>1. Inspect and clean up Standard Lists files(Reference Tables)
+2. Combine Labelled Activity from Training and Test set
+3. Selection and Transformation of Features List
+4. Extract Subjects Identity Column 
+5. Extract Captured Sensor and Computed data extraction for the selected features list
+6. Merge step 3- 2 &amp; 5  -&gt; Tidy Data
+7. Write dataset to tidydata.txt 
+8. Calculate mean of all the variables[https://class.coursera.org/getdata-006/forum/thread?thread_id=299]
+9. Write Summary dataset </code></pre>
+</div>
 <div id="data-inspection" class="section level3">
 <h3>Data Inspection</h3>
 <p>Load all reference tables</p>
@@ -178,6 +195,8 @@ nrow(dfActivityLabels)</code></pre>
 <p>Though these functions returns values expected when run on the data frame failed to produce consistent behaviour hence used substitue functions</p>
 <pre class="r"><code>#a. Transformation of Feature names
     #Remove open brackets
+    dfModifiedFeatureList&lt;-dfFeatureList
+
     dfModifiedFeatureList$Feature&lt;-sub(&quot;\\(&quot;,&quot;&quot;,dfFeatureList$Feature)
 
     #Remove closing brackets
@@ -228,6 +247,9 @@ nrow(dfActivityLabels)</code></pre>
 </div>
 <div id="selection-of-measures" class="section level1">
 <h1>Selection of Measures</h1>
+<div id="step-4" class="section level3">
+<h3>STEP 4:</h3>
+</div>
 <div id="to-prepare-the-tidydata.txt-for-analysis" class="section level2">
 <h2>To prepare the tidydata.txt for analysis</h2>
 <p>As per the problem statement need to extract only standard and mean values of each measure (feature) and since its a three dimensional space movement and activity observation we need to have <strong><em>magnitude, angle and directions values</em></strong>.</p>
@@ -253,6 +275,7 @@ nrow(dfActivityLabels)</code></pre>
 <p>fBodyGyro-mean()-X: 424,425,426,427,428,429</p>
 <p>fBodyAccMag-mean(): 503,504</p>
 <p>Angles: 555,556,557,558,559,560,561</p>
+<p>In addtion meanFreq have been selected</p>
 <pre class="r"><code>#c.Select Measures - Std and Means of Measures
   SelectedFieldsOfMeasurementMeanStdValues &lt;- c(1,2,3,4,5,6,41,42,43,44,45,46,81,82,83,84,85,86,
                                                 121,122,123,124,125,126,161,162,163,164,165,166,
@@ -330,10 +353,9 @@ nrow(dfActivityLabels)</code></pre>
 </div>
 </div>
 <div id="extract-subjects" class="section level1">
-<h1>4. Extract Subjects</h1>
-<div id="step-1" class="section level3">
-<h3>STEP 1:</h3>
-<p>#.Subjects Identity Column</p>
+<h1>5. Extract Subjects</h1>
+<div id="step-5subjects-identity-column" class="section level3">
+<h3>STEP 5:Subjects Identity Column</h3>
 <pre class="r"><code>    #a.Read Subjects Identity Column from the Training Set
     SubjectsFromTainingSet&lt;-read.table('data/train/subject_train.txt')
 
@@ -348,8 +370,207 @@ length(Subjects)</code></pre>
 <pre><code>##  [1] &quot;1&quot;  &quot;2&quot;  &quot;3&quot;  &quot;4&quot;  &quot;5&quot;  &quot;6&quot;  &quot;7&quot;  &quot;8&quot;  &quot;9&quot;  &quot;10&quot; &quot;11&quot; &quot;12&quot; &quot;13&quot; &quot;14&quot;
 ## [15] &quot;15&quot; &quot;16&quot; &quot;17&quot; &quot;18&quot; &quot;19&quot; &quot;20&quot; &quot;21&quot; &quot;22&quot; &quot;23&quot; &quot;24&quot; &quot;25&quot; &quot;26&quot; &quot;27&quot; &quot;28&quot;
 ## [29] &quot;29&quot; &quot;30&quot;</code></pre>
-<p>This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <a href="http://rmarkdown.rstudio.com">http://rmarkdown.rstudio.com</a>.</p>
 </div>
+</div>
+<div id="captured-sensor-and-computed-data-extraction" class="section level1">
+<h1>6. Captured Sensor and Computed data extraction</h1>
+<div id="step-6combine-both-training-and-test-datasets" class="section level3">
+<h3>STEP 6:Combine both Training and Test datasets</h3>
+<pre class="r"><code>  #a. Read Captured Sensor and Computed data from the Training Set
+  CapturedDataTrainingSet &lt;- read.table('data/train/x_train.txt',)
+
+  #b.Read Captured Sensor and Computed data from the Test Set
+  CapturedDataTestSet &lt;- read.table('data/test/x_test.txt')
+
+  #c.Combine Captured Sensor and Computed data of both Trainig and The Test Set
+  #CapturedDataCombined &lt;- rbind(CapturedDataTrainingSet,CapturedDataTestSet)
+  CapturedDataCombined &lt;- mapply(c,CapturedDataTrainingSet,CapturedDataTestSet)</code></pre>
+</div>
+</div>
+<div id="final-step---merge---tidy-data" class="section level1">
+<h1>6. Final Step - Merge -&gt; Tidy Data</h1>
+<div id="combining-1.-subjects-identity-column" class="section level3">
+<h3>Combining 1. Subjects Identity Column</h3>
+</div>
+<div id="labled-activity-column---from-4.c" class="section level3">
+<h3>2. Labled Activity Column &lt;- from (4.c)</h3>
+</div>
+<div id="captured-and-computed-std-and-means-plus-angles-and-freq-component-columns---from-5.c" class="section level3">
+<h3>3. Captured and Computed Std and Means plus Angles and Freq Component Columns &lt;- from (5.c)</h3>
+<pre class="r"><code>  #a. Combine Subjects from Step 2, Labelled Activity from Step 1 and   
+  WearableCompTidyDataset&lt;-data.frame(Subjects,Activity,CapturedDataCombined[,SelectedFieldsOfMeasurementMeanStdValues])
+  CapturedData&lt;-CapturedDataCombined[,SelectedFieldsOfMeasurementMeanStdValues]
+  
+  #b. Update Column names
+  colnames(WearableCompTidyDataset)&lt;-ColNames</code></pre>
+<p>Sort on Subjects Write to file (intermediate results)</p>
+</div>
+</div>
+<div id="interesting-observation-for-the-eyes-of-the-beholder" class="section level1">
+<h1>INTERESTING OBSERVATION FOR THE EYES OF THE BEHOLDER</h1>
+<pre class="r"><code>    wout&lt;-WearableCompTidyDataset[order(WearableCompTidyDataset$Subject),]
+  
+    #Just to create the interest
+    table(wout$Subject,wout$Activity)</code></pre>
+<pre><code>##     
+##      WALKING WALKING_UPSTAIRS WALKING_DOWNSTAIRS SITTING STANDING LAYING
+##   1       95               53                 49      47       53     50
+##   2       59               48                 47      46       54     48
+##   3       58               59                 49      52       61     62
+##   4       60               52                 45      50       56     54
+##   5       56               47                 47      44       56     52
+##   6       57               51                 48      55       57     57
+##   7       57               51                 47      48       53     52
+##   8       48               41                 38      46       54     54
+##   9       52               49                 42      50       45     50
+##   10      53               47                 38      54       44     58
+##   11      59               54                 46      53       47     57
+##   12      50               52                 46      51       61     60
+##   13      57               55                 47      49       57     62
+##   14      59               54                 45      54       60     51
+##   15      54               48                 42      59       53     72
+##   16      51               51                 47      69       78     70
+##   17      61               48                 46      64       78     71
+##   18      56               58                 55      57       73     65
+##   19      52               40                 39      73       73     83
+##   20      51               51                 45      66       73     68
+##   21      52               47                 45      85       89     90
+##   22      46               42                 36      62       63     72
+##   23      59               51                 54      68       68     72
+##   24      58               59                 55      68       69     72
+##   25      74               65                 58      65       74     73
+##   26      59               55                 50      78       74     76
+##   27      57               51                 44      70       80     74
+##   28      54               51                 46      72       79     80
+##   29      53               49                 48      60       65     69
+##   30      65               65                 62      62       59     70</code></pre>
+<pre class="r"><code>    #clean up
+  
+    rm(WearableCompTidyDataset)
+
+    # write tidydata.txt file
+  
+    
+    #.a Generate file name
+    
+    fileName&lt;-paste0(&quot;tidyDataWC&quot;,format(Sys.time(),&quot;%a_%Y_%b_%d_%H_%M_%S.txt&quot;))  
+ 
+    #.b write 
+    
+    
+    #as per the instruction used write.table
+    
+    # 7. Calculate Mean of all the variables
+    write.table(wout,file=fileName,row.names=F)
+  
+    require(reshape)</code></pre>
+<pre><code>## Loading required package: reshape</code></pre>
+<pre><code>## Warning: package 'reshape' was built under R version 3.0.3</code></pre>
+<pre><code>## 
+## Attaching package: 'reshape'
+## 
+## The following object is masked from 'package:plyr':
+## 
+##     rename, round_any</code></pre>
+<p>Calculate mean of all the varaibles (Please check my post)</p>
+<pre class="r"><code>  x &lt;- melt(wout, id=1:2, measured=3:76)
+    
+  SummaryDS&lt;-cast(x, Activity + Subject ~ variable, mean)</code></pre>
+<pre class="r"><code>    # The below method is the fastest but the above used for flexibility
+    
+    #check time &amp; verify
+    
+    #dt&lt;-data.table(wout)
+    
+    #x&lt;-dt[,list(mean(td_bodyacc_mean_x),mean(td_bodyacc_mean_y),mean(td_bodyacc_mean_z),  
+    #             mean(td_bodyacc_std_x),mean(td_bodyacc_std_y),mean(td_bodyacc_std_z),
+    #             mean(td_gravityacc_mean_x),mean(td_gravityacc_mean_y),
+    #             mean(td_gravityacc_mean_z),mean(td_gravityacc_std_x), 
+    #             mean(td_gravityacc_std_y),mean(td_gravityacc_std_z),
+    #             mean(td_bodyaccjerk_mean_x),mean(td_bodyaccjerk_mean_y),
+    #             mean(td_bodyaccjerk_mean_z),mean(td_bodyaccjerk_std_x),
+    #             mean(td_bodyaccjerk_std_y),mean(td_bodyaccjerk_std_z),
+    #             mean(td_bodygyro_mean_x),mean(td_bodygyro_mean_y),
+    #             mean(td_bodygyro_mean_z),mean(td_bodygyro_std_x),
+    #             mean(td_bodygyro_std_y),mean(td_bodygyro_std_z),
+    #             mean(td_bodygyrojerk_mean_x),mean(td_bodygyrojerk_mean_y),
+    #             mean(td_bodygyrojerk_std_y),mean(td_bodygyrojerk_std_z),
+    #             mean(td_bodyaccmag_mean),mean(td_bodyaccmag_std),
+    #             mean(td_gravityaccmag_mean),mean(td_gravityaccmag_std),
+    #             mean(td_bodyaccjerkmag_mean),mean(td_bodyaccjerkmag_std),
+    #             mean(td_bodygyromag_mean),mean(td_bodygyromag_std),
+    #             mean(td_bodygyrojerkmag_mean),mean(td_bodygyrojerkmag_std),
+    #             mean(fd_bodyacc_mean_x),mean(fd_bodyacc_mean_y),
+    #             mean(fd_bodyacc_mean_z),mean(fd_bodyacc_std_x),
+    #             mean(fd_bodyacc_std_y),mean(fd_bodyacc_std_z),
+    #             mean(fd_bodyaccjerk_mean_x),mean(fd_bodyaccjerk_mean_y),
+    #             mean(fd_bodyaccjerk_mean_z),mean(fd_bodyaccjerk_std_x),
+    #             mean(fd_bodyaccjerk_std_y),mean(fd_bodyaccjerk_std_z),
+    #             mean(fd_bodyaccjerk_meanfreq_x),mean(fd_bodyaccjerk_meanfreq_y),
+    #             mean(fd_bodyaccjerk_meanfreq_z),mean(fd_bodygyro_mean_x),
+    #             mean(fd_bodygyro_mean_y),mean(fd_bodygyro_mean_z),
+    #             mean(fd_bodygyro_std_x),mean(fd_bodygyro_std_y),
+    #             mean(fd_bodygyro_std_z),mean(fd_bodygyro_meanfreq_x),
+    #             mean(fd_bodygyro_meanfreq_y),mean(fd_bodygyro_meanfreq_z),    
+    #             mean(fd_bodyaccmag_mean),mean(fd_bodyaccmag_std), 
+    #             mean(fd_bodyaccmag_meanfreq),mean(angle_td_bodyaccmean_gravity),
+    #             mean(angle_td_bodyaccjerkmean_gravitymean),mean(angle_td_bodygyromean_gravitymean),
+    #             mean(angle_td_bodygyrojerkmean_gravitymean),mean(angle_x_gravitymean),
+    #             mean(angle_y_gravitymean),mean(angle_z_gravitymean)),by=c(&quot;Activity&quot;,&quot;Subject&quot;)]
+
+    
+    #cleanup
+    
+    rm(&quot;wout&quot;)</code></pre>
+<p>Sort on Activity and Subject</p>
+<pre class="r"><code>    SummaryFeatureMeasures &lt;- SummaryDS[order(SummaryDS$Activity,SummaryDS$Subject),]
+    
+    
+    #Copy selected Feature Measures
+    
+    ColMeanNames&lt;-ColNames
+    
+    
+    #Prefix with mean_
+    
+    for(i in 3:length(ColNames))
+    
+      ColMeanNames[i]=paste0(&quot;mean_&quot;,ColNames[i])
+    
+    
+    #set the column names prefixed with a mean_
+    
+    colnames(SummaryFeatureMeasures)&lt;-ColMeanNames</code></pre>
+<p>Generate a new filename with time and date stamp</p>
+<pre class="r"><code>fileName&lt;-paste0(&quot;TidyDataMeans_&quot;,format(Sys.time(),&quot;%a_%Y_%b_%d_%H_%M_%S.txt&quot;)) 
+fileName</code></pre>
+<pre><code>## [1] &quot;TidyDataMeans_Sun_2014_Aug_24_18_41_40.txt&quot;</code></pre>
+<p>Write to file</p>
+<pre class="r"><code>#write to file 
+    
+write.table(SummaryFeatureMeasures,file=fileName,row.names=F)
+
+#Final Cleanup
+    
+rm(&quot;ColMeanNames&quot;,&quot;SummaryDS&quot;,&quot;SummaryFeatureMeasures&quot;,&quot;x&quot;,&quot;ColNames&quot;,&quot;FieldNames&quot;,&quot;SelectedFieldsOfMeasurementMeanStdValues&quot;,&quot;i&quot;,&quot;fileName&quot;)
+
+#Just to Verify is any garbage leftout
+ls()</code></pre>
+<pre><code>##  [1] &quot;Activity&quot;                &quot;ActivityLabels&quot;         
+##  [3] &quot;CapturedData&quot;            &quot;CapturedDataCombined&quot;   
+##  [5] &quot;CapturedDataTestSet&quot;     &quot;CapturedDataTrainingSet&quot;
+##  [7] &quot;dfActivityLabels&quot;        &quot;dfFeatureList&quot;          
+##  [9] &quot;dfModifiedFeatureList&quot;   &quot;l&quot;                      
+## [11] &quot;metadata&quot;                &quot;Subjects&quot;               
+## [13] &quot;SubjectsFromTainingSet&quot;  &quot;SubjectsFromTestSet&quot;    
+## [15] &quot;yTestActivityLabels&quot;     &quot;yTrainingActivityLabels&quot;</code></pre>
+<p>We are done with this assignment.</p>
+<p>Thanks for assessing</p>
+<p>Please do leave your feedback</p>
+<p>Happy Wearable Computing :)</p>
+<p>Thanks</p>
+<p>========================</p>
+<p>This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <a href="http://rmarkdown.rstudio.com">http://rmarkdown.rstudio.com</a>.</p>
 </div>
 
 

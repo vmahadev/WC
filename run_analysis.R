@@ -85,7 +85,7 @@
     #ifelse(length(levels(factor(dfModifiedFeatureList$Feature)))==length(levels(factor(dfFeatureList$Feature))),"Equal","Not Equal")
 
     
-    #Substitute time domain t with TD
+    #Substitute time domain t with TD (Same can be achieved using ^t and ^f inconsistent results)
     
     dfModifiedFeatureList$Feature<-sub("tBody","TD_Body",dfModifiedFeatureList$Feature)
     
@@ -100,7 +100,7 @@
     dfModifiedFeatureList$Feature<-sub("fGravity","FD_Gravity",dfModifiedFeatureList$Feature)
 
     
-    #Substitute freq domain f with FD
+    #Substitute freq domain f with FD 
     
     dfModifiedFeatureList$Feature<-sub("fBody","FD_Body",dfModifiedFeatureList$Feature)
 
@@ -207,7 +207,7 @@
   
     WearableCompTidyDataset<-data.frame(Subjects,Activity,CapturedDataCombined[,SelectedFieldsOfMeasurementMeanStdValues])
   
-  
+   
     rm("CapturedDataCombined","Subjects","Activity","dfActivityLabels")
   
     #b. Update Column names
@@ -216,6 +216,8 @@
   
     wout<-WearableCompTidyDataset[order(WearableCompTidyDataset$Subject),]
   
+    #Just to create the interest
+    table(wout$Subject,wout$Activity)
     #clean up
   
     rm(WearableCompTidyDataset)
@@ -235,7 +237,7 @@
     
     #as per the instruction used write.table
     
-    #Calculate Mean of all the variables
+    # 7. Calculate Mean of all the variables
     write.table(wout,file=fileName,row.names=F)
   
     require(reshape)
@@ -333,3 +335,9 @@
     
     #done
     #===========================================================================
+    # resultset<-read.table("TidyDataMeans_Sun_2014_Aug_24_12_29_51.txt")
+    #===========================================================================
+   
+    
+    
+    

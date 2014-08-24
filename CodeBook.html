@@ -59,93 +59,287 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 </div>
 
 
-<div id="wearble-computing" class="section level1">
-<h1>Wearble Computing</h1>
+<div id="wearable-computing" class="section level1">
+<h1>Wearable Computing</h1>
 <div id="data-set-human-activity-recognition-using-smart-phones" class="section level2">
 <h2>Data Set : Human Activity Recognition Using Smart Phones</h2>
 <div id="the-code-book---tidydata.txt" class="section level3">
 <h3>(The Code Book) - Tidydata.txt</h3>
+<p>This code book has the following sections</p>
+<ol style="list-style-type: decimal">
+<li><p>Data Dictionary or Code book of Tidydata.txt</p>
+<ul>
+<li>This table has four headings (ColumnName, DataType, Description, Values)</li>
+</ul></li>
+<li><p>Data Dictionary or Code book of TidySummaryData.txt</p>
+<ul>
+<li>This is the same as the above dictionary but mean average of each variables has been calculated hence prefixed with mean_</li>
+</ul></li>
+<li><p>Units of Measure</p></li>
+<li><p>Further reading and refernces</p></li>
+<li><p>References and Information Sources (Source Data Information)</p></li>
+<li><p>Acknowledgement</p></li>
+<li><p>License of original data sample publishers</p></li>
+</ol>
+</div>
+<div id="tidydata.txt---code-book" class="section level3">
+<h3>Tidydata.txt - Code Book</h3>
 <p><em>Attributes:</em></p>
-<p><strong>Name</strong> | <strong>Description</strong></p>
-<p>—————————-|——————————————————-</p>
-<p>Subject | Subjects Identity Column (Width 2 Digit)</p>
-<p>Activity | Labled Activity VALUES (WALKING,WALKING_UPSTAIRS,WALKING_DOWNSTAIRS,SITTING, STANDING, LAYING</p>
-<p>td_bodyacc_mean_x | Body acceleration mean value of X - direction</p>
-<p>td_bodyacc_mean_y | Body acceleration mean value of Y - direction</p>
-<p>td_bodyacc_mean_z | Body acceleration mean value of Z - direction</p>
-<p>td_bodyacc_std_x | Body acceleration std value of X - direction</p>
-<p>td_bodyacc_std_y | Body acceleration std value of Y - direction</p>
-<p>td_bodyacc_std_z | Body acceleration std value of Z - direction</p>
-<p>td_gravityacc_mean_x | Linear acceleration affected by the gravitational force for XY and Z direction</p>
-<p>td_gravityacc_mean_y |</p>
-<p>td_gravityacc_mean_z |</p>
-<p>td_gravityacc_std_x | Linear acceleration affected by the gravitational force for XY and Z direction std dev values td_gravityacc_std_y |</p>
-<p>td_gravityacc_std_z |</p>
-<p>td_bodyaccjerk_mean_x | Feature extracted a computed value Body Jerk</p>
-<p>td_bodyaccjerk_mean_y | X Y and Z directions its mean value</p>
-<p>td_bodyaccjerk_mean_z |</p>
-<p>td_bodyaccjerk_std_x |</p>
-<p>td_bodyaccjerk_std_y |</p>
-<p>td_bodyaccjerk_std_z |</p>
-<p>td_bodygyro_mean_x | Feature extracted of Angular motion mean values</p>
-<p>td_bodygyro_mean_y |</p>
-<p>td_bodygyro_mean_z |</p>
-<p>td_bodygyro_std_x |Feature extracted of Angular motion standard deviation</p>
-<p>td_bodygyro_std_y |values</p>
-<p>td_bodygyro_std_z |</p>
-<p>td_bodygyrojerk_mean_x |Feature extracted of Angular jerk mean values</p>
-<p>td_bodygyrojerk_mean_y |</p>
-<p>td_bodygyrojerk_mean_z |</p>
-<p>td_bodygyrojerk_std_x |Feature extracted of Angular jerk standard deviation</p>
-<p>td_bodygyrojerk_std_y |Values in X Y Z directions</p>
-<p>td_bodygyrojerk_std_z |</p>
-<p>td_bodyaccmag_mean | Body Acceleration Magnitude Mean Value</p>
-<p>td_bodyaccmag_std | Body Acceleration Magnitude Std.Dev. Value</p>
-<p>td_gravityaccmag_mean | Gravity - Magnitude (Sensor Value) Mean and Std.Dev.</p>
-<p>td_gravityaccmag_std |</p>
-<p>td_bodyaccjerkmag_mean | Body Acc Jerk Magnitude Mean and Std.Dev. Values</p>
-<p>td_bodyaccjerkmag_std |</p>
-<p>td_bodygyromag_mean | Body Angular Movement Magnitude Mean and Std.Dev.</p>
-<p>td_bodygyromag_std | Values</p>
-<p>td_bodygyrojerkmag_mean | Body Angular Jerk Magnitude mean and std. dev.</p>
-<p>td_bodygyrojerkmag_std |</p>
-<p>fd_bodyacc_mean_x | Frequency Domain Values</p>
-<p>fd_bodyacc_mean_y |</p>
-<p>fd_bodyacc_mean_z |</p>
-<p>fd_bodyacc_std_x |</p>
-<p>fd_bodyacc_std_y |</p>
-<p>fd_bodyacc_std_z |</p>
-<p>fd_bodyaccjerk_mean_x |</p>
-<p>fd_bodyaccjerk_mean_y |</p>
-<p>fd_bodyaccjerk_mean_z |</p>
-<p>fd_bodyaccjerk_std_x |</p>
-<p>fd_bodyaccjerk_std_y |</p>
-<p>fd_bodyaccjerk_std_z |</p>
-<p>fd_bodyaccjerk_meanfreq_x |</p>
-<p>fd_bodyaccjerk_meanfreq_y |</p>
-<p>fd_bodyaccjerk_meanfreq_z |</p>
-<p>fd_bodygyro_mean_x |</p>
-<p>fd_bodygyro_mean_y |</p>
-<p>fd_bodygyro_mean_z |</p>
-<p>fd_bodygyro_std_x |</p>
-<p>fd_bodygyro_std_y |</p>
-<p>fd_bodygyro_std_z |</p>
-<p>fd_bodygyro_meanfreq_x |</p>
-<p>fd_bodygyro_meanfreq_y |</p>
-<p>fd_bodygyro_meanfreq_z |</p>
-<p>fd_bodyaccmag_mean |</p>
-<p>fd_bodyaccmag_std |</p>
-<p>fd_bodyaccmag_meanfreq |</p>
-<p>angle_td_bodyaccmean_gravity| Angular Measurement b/w Body Acceleration &amp; Gravity</p>
-<p>angle_td_bodyaccjerkmean_gravitymean| Angular Measurement b/w BodyAccJerk and Gravitational Component</p>
-<p>angle_td_bodygyromean_gravitymean| Angular Measure b/w bodyGyro and Gravity component</p>
-<p>angle_td_bodygyrojerkmean_gravitymean| Angle Measure b/w body gyro jerk and Gravity component</p>
-<p>angle_x_gravitymean | Angle X component Gravity mean</p>
-<p>angle_y_gravitymean | Angle Y component Gravity mean</p>
-<p>angle_z_gravitymean | Angle Z component Gravity mean</p>
-<p>NOTE : All data unless otherwise mentioned are double</p>
+<pre><code>##             Column.Name.Attribute.Field. Data.Type
+## 1                                Subject   Integer
+## 2                               Activity Character
+## 3                    Time Domain Signals          
+## 4                      td_bodyacc_mean_x    Double
+## 5                      td_bodyacc_mean_y    Double
+## 6                      td_bodyacc_mean_z    Double
+## 7                       td_bodyacc_std_x    Double
+## 8                       td_bodyacc_std_y    Double
+## 9                       td_bodyacc_std_z    Double
+## 10                  td_gravityacc_mean_x    Double
+## 11                  td_gravityacc_mean_y    Double
+## 12                  td_gravityacc_mean_z    Double
+## 13                   td_gravityacc_std_x    Double
+## 14                   td_gravityacc_std_y    Double
+## 15                   td_gravityacc_std_z    Double
+## 16                 td_bodyaccjerk_mean_x    Double
+## 17                 td_bodyaccjerk_mean_y    Double
+## 18                 td_bodyaccjerk_mean_z    Double
+## 19                  td_bodyaccjerk_std_x    Double
+## 20                  td_bodyaccjerk_std_y    Double
+## 21                  td_bodyaccjerk_std_z    Double
+## 22                    td_bodygyro_mean_x    Double
+## 23                    td_bodygyro_mean_y    Double
+## 24                    td_bodygyro_mean_z    Double
+## 25                     td_bodygyro_std_x    Double
+## 26                     td_bodygyro_std_y    Double
+## 27                     td_bodygyro_std_z    Double
+## 28                td_bodygyrojerk_mean_x    Double
+## 29                td_bodygyrojerk_mean_y    Double
+## 30                td_bodygyrojerk_mean_z    Double
+## 31                 td_bodygyrojerk_std_x    Double
+## 32                 td_bodygyrojerk_std_y    Double
+## 33                 td_bodygyrojerk_std_z    Double
+## 34                    td_bodyaccmag_mean    Double
+## 35                     td_bodyaccmag_std    Double
+## 36                 td_gravityaccmag_mean    Double
+## 37                  td_gravityaccmag_std    Double
+## 38                td_bodyaccjerkmag_mean    Double
+## 39                 td_bodyaccjerkmag_std    Double
+## 40                   td_bodygyromag_mean    Double
+## 41                    td_bodygyromag_std    Double
+## 42               td_bodygyrojerkmag_mean    Double
+## 43                td_bodygyrojerkmag_std    Double
+## 44              Frequency Domain Signals          
+## 45                     fd_bodyacc_mean_x    Double
+## 46                     fd_bodyacc_mean_y    Double
+## 47                     fd_bodyacc_mean_z    Double
+## 48                      fd_bodyacc_std_x    Double
+## 49                      fd_bodyacc_std_y    Double
+## 50                      fd_bodyacc_std_z    Double
+## 51                 fd_bodyaccjerk_mean_x    Double
+## 52                 fd_bodyaccjerk_mean_y    Double
+## 53                 fd_bodyaccjerk_mean_z    Double
+## 54                  fd_bodyaccjerk_std_x    Double
+## 55                  fd_bodyaccjerk_std_y    Double
+## 56                  fd_bodyaccjerk_std_z    Double
+## 57             fd_bodyaccjerk_meanfreq_x    Double
+## 58             fd_bodyaccjerk_meanfreq_y    Double
+## 59             fd_bodyaccjerk_meanfreq_z    Double
+## 60                    fd_bodygyro_mean_x    Double
+## 61                    fd_bodygyro_mean_y    Double
+## 62                    fd_bodygyro_mean_z    Double
+## 63                     fd_bodygyro_std_x    Double
+## 64                     fd_bodygyro_std_y    Double
+## 65                     fd_bodygyro_std_z    Double
+## 66                fd_bodygyro_meanfreq_x    Double
+## 67                fd_bodygyro_meanfreq_y    Double
+## 68                fd_bodygyro_meanfreq_z    Double
+## 69                    fd_bodyaccmag_mean    Double
+## 70                     fd_bodyaccmag_std    Double
+## 71                fd_bodyaccmag_meanfreq    Double
+## 72          angle_td_bodyaccmean_gravity    Double
+## 73  angle_td_bodyaccjerkmean_gravitymean    Double
+## 74     angle_td_bodygyromean_gravitymean    Double
+## 75 angle_td_bodygyrojerkmean_gravitymean    Double
+## 76                   angle_x_gravitymean    Double
+## 77                   angle_y_gravitymean    Double
+## 78                   angle_z_gravitymean    Double
+##                                                               Description
+## 1                                                Subjects Identity Column
+## 2                                             Activity which is labelled 
+## 3                                                                        
+## 4                           Body acceleration mean value of X - direction
+## 5                                      Same as above but in Y - direction
+## 6                                      Same as above but in Z - direction
+## 7                            Body acceleration std value of X - direction
+## 8                                      Same as above but in Y - direction
+## 9                                      Same as above but in Z - direction
+## 10     Linear acceleration affected by the gravitational force for X Mean
+## 11                                     Same as above but in Y - direction
+## 12                                     Same as above but in Z - direction
+## 13  Linear acceleration affected by the gravitational force for X Std Dev
+## 14                                     Same as above but in Y - direction
+## 15                                     Same as above but in Z - direction
+## 16                    Body acceleration Jerk  mean value of X - direction
+## 17                                     Same as above but in Y - direction
+## 18                                     Same as above but in Z - direction
+## 19                      Body acceleration Jerk  SD value of X - direction
+## 20                                     Same as above but in Y - direction
+## 21                                     Same as above but in Z - direction
+## 22                        Angular Rotation Mean Value of X - Co-ordinate 
+## 23                                     Same as above but in Y - direction
+## 24                                     Same as above but in Z - direction
+## 25                          Angular Rotation SD Value of X - Co-ordinate 
+## 26                                     Same as above but in Y - direction
+## 27                                     Same as above but in Z - direction
+## 28                 Angular Rotational Jerk Mean Value of X - Co-ordinate 
+## 29                                     Same as above but in Y - direction
+## 30                                     Same as above but in Z - direction
+## 31                   Angular Rotational Jerk SD Value of X - Co-ordinate 
+## 32                                     Same as above but in Y - direction
+## 33                                     Same as above but in Z - direction
+## 34                                 Body Acceleration Magnitude Mean Value
+## 35                                   Body Acceleration Magnitude SD Value
+## 36                                    Gravitational Force Magnitude Value
+## 37                                    Gravitational Force Magnitude Value
+## 38                          Body acceleration Jerk Magnitude  mean value 
+## 39                             Body acceleration Jerk Magnitude  SD value
+## 40                             Body Angular Rotation Magnitude Mean value
+## 41                               Body Angular Rotation Magnitude SD value
+## 42                        Body Angular Rotation Jerk Magnitude Mean value
+## 43                          Body Angular Rotation Jerk Magnitude SD value
+## 44                                                                       
+## 45                          Body acceleration mean value of X - direction
+## 46                                     Same as above but in Y - direction
+## 47                                     Same as above but in Z - direction
+## 48                           Body acceleration std value of X - direction
+## 49                                     Same as above but in Y - direction
+## 50                                     Same as above but in Z - direction
+## 51                    Body acceleration Jerk  mean value of X - direction
+## 52                                     Same as above but in Y - direction
+## 53                                     Same as above but in Z - direction
+## 54                      Body acceleration Jerk  SD value of X - direction
+## 55                                     Same as above but in Y - direction
+## 56                                     Same as above but in Z - direction
+## 57                                 Body acceleration Jerk  Mean Frequency
+## 58                                     Same as above but in Y - direction
+## 59                                     Same as above but in Z - direction
+## 60                 Angular Rotational Jerk Mean Value of X - Co-ordinate 
+## 61                                     Same as above but in Y - direction
+## 62                                     Same as above but in Z - direction
+## 63                   Angular Rotational Jerk SD Value of X - Co-ordinate 
+## 64                                     Same as above but in Y - direction
+## 65                                     Same as above but in Z - direction
+## 66                      Body Angular Motion  Mean Frequency X Co-ordinate
+## 67                                     Same as above but in Y - direction
+## 68                                     Same as above but in Z - direction
+## 69                                 Body Acceleration Magnitude Mean Value
+## 70                                   Body Acceleration Magnitude SD Value
+## 71                                      Body Acceleration Mean Freq Value
+## 72       Angular Motion Component b/w body acceleration mean and gravity 
+## 73            Angular Motion Component b/w acc jerk mean and gravity mean
+## 74                              Angular Motion body gyro b/w gravity mean
+## 75                         Angular Motion body gyro jerk and gravity mean
+## 76                                                     Angular Rotation X
+## 77                                     Same as above but in Y - direction
+## 78                                     Same as above but in Z - direction
+##                                                                                                               Value.Range
+## 1                                                                                                                 1 To 30
+## 2                                                   WALKING,WALKING UPSTAIRS,WALKING DOWNSTAIRS,SITTING, STANDING, LAYING
+## 3                                                                                                                        
+## 4                                                                                                                        
+## 5                                                                                                                        
+## 6                                                                                                                        
+## 7                                                                                                                        
+## 8                                                                                                                        
+## 9                                                                                                                        
+## 10    Sensors Data Acquisition for Android Devices[http://developer.android.com/guide/topics/sensors/sensors_motion.html]
+## 11                                                                                                                       
+## 12                                                                                                                       
+## 13                                                                                                                       
+## 14                                                                                                                       
+## 15                                                                                                                       
+## 16                                                                                                                       
+## 17                                                                                                                       
+## 18                                                                                                                       
+## 19                                                                                                                       
+## 20                                                                                                                       
+## 21                                                                                                                       
+## 22 A primer on Co-ordinate system[http://developer.android.com/guide/topics/sensors/sensors_overview.html#sensors-coords]
+## 23                                                                                                                       
+## 24                                                                                                                       
+## 25                                                                                                                       
+## 26                                                                                                                       
+## 27                                                                                                                       
+## 28                                                                                                                       
+## 29                                                                                                                       
+## 30                                                                                                                       
+## 31                                                                                                                       
+## 32                                                                                                                       
+## 33                                                                                                                       
+## 34                                                                                                                       
+## 35                                                                                                                       
+## 36                                                                                                                       
+## 37                                                                                                                       
+## 38                                                                                                                       
+## 39                                                                                                                       
+## 40                                                                                                                       
+## 41                                                                                                                       
+## 42                                                                                                                       
+## 43                                                                                                                       
+## 44                                                                                                                       
+## 45                                                                                                                       
+## 46                                                                                                                       
+## 47                                                                                                                       
+## 48                                                                                                                       
+## 49                                                                                                                       
+## 50                                                                                                                       
+## 51                                                                                                                       
+## 52                                                                                                                       
+## 53                                                                                                                       
+## 54                                                                                                                       
+## 55                                                                                                                       
+## 56                                                                                                                       
+## 57                                                                                                                       
+## 58                                                                                                                       
+## 59                                                                                                                       
+## 60                                                                                                                       
+## 61                                                                                                                       
+## 62                                                                                                                       
+## 63                                                                                                                       
+## 64                                                                                                                       
+## 65                                                                                                                       
+## 66                                                                                                                       
+## 67                                                                                                                       
+## 68                                                                                                                       
+## 69                                                                                                                       
+## 70                                                                                                                       
+## 71                                                                                                                       
+## 72                                                                                                                       
+## 73                                                                                                                       
+## 74                                                                                                                       
+## 75                                                                                                                       
+## 76                                                                                                                       
+## 77                                                                                                                       
+## 78</code></pre>
 </div>
 </div>
+</div>
+<div id="unit-of-measure" class="section level1">
+<h1>Unit of Measure</h1>
+<p><em>NOTE : All data unless otherwise mentioned are double and all forces and magnitudes are in m/s2 and angles are in radians/second</em></p>
+</div>
+<div id="further-reading-and-references" class="section level1">
+<h1>Further Reading and references</h1>
+<p>Complete technical documentation with sample code available at the following link</p>
+<p>Sensors Data Acquisition for Android Devices[<a href="http://developer.android.com/guide/topics/sensors/sensors_motion.html">http://developer.android.com/guide/topics/sensors/sensors_motion.html</a>]</p>
+<p>A primer on Co-ordinate system [<a href="http://developer.android.com/guide/topics/sensors/sensors_overview.html#sensors-coords">http://developer.android.com/guide/topics/sensors/sensors_overview.html#sensors-coords</a>] The gyroscope measures the rate or rotation in rad/s around a device’s x, y, and z axis</p>
+<p>The units are the same as those used by the acceleration sensor (m/s2), and the coordinate system is the same as the one used by the acceleration sensor.</p>
+<p>-If you push the device on the left side (so it moves to the right), the x acceleration value is positive. -If you push the device on the bottom (so it moves away from you), the y acceleration value is positive. -If you push the device toward the sky with an acceleration of A m/s2, the z acceleration value is equal to A + 9.81, which corresponds to the acceleration of the device (+A m/s2) minus the force of gravity (-9.81 m/s2).</p>
+<p>The stationary device will have an acceleration value of +9.81, which corresponds to the acceleration of the device (0 m/s2 minus the force of gravity, which is -9.81 m/s2).</p>
+</div>
+<div id="source-data" class="section level1">
+<h1>SOURCE DATA</h1>
 </div>
 <div id="for-further-details-and-readings" class="section level1">
 <h1>For further details and readings</h1>
@@ -178,7 +372,7 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <li><p>‘train/subject_train.txt’: Each row identifies the subject who performed the activity for each window sample. Its range is from 1 to 30.</p></li>
 <li><p>‘train/Inertial Signals/total_acc_x_train.txt’: The acceleration signal from the smartphone accelerometer X axis in standard gravity units ‘g’. Every row shows a 128 element vector. The same description applies for the ‘total_acc_x_train.txt’ and ‘total_acc_z_train.txt’ files for the Y and Z axis.</p></li>
 <li><p>‘train/Inertial Signals/body_acc_x_train.txt’: The body acceleration signal obtained by subtracting the gravity from the total acceleration.</p></li>
-<li><p>‘train/Inertial Signals/body_gyro_x_train.txt’: The angular velocity vector measured by the gyroscope for each window sample. The units are radians/second.</p></li>
+<li><p>‘train/Inertial Signals/body_gyro_x_train.txt’: The angular velocity vector measured by the gyroscope for each window sample. The units are <strong>radians/second</strong>.</p></li>
 </ul>
 </div>
 <div id="notes" class="section level1">
@@ -188,16 +382,12 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 <li>Each feature vector is a row on the text file.</li>
 </ul>
 <p>For more information about this dataset contact: <a href="mailto:activityrecognition@smartlab.ws">activityrecognition@smartlab.ws</a></p>
-<pre class="r"><code>summary(cars)</code></pre>
-<pre><code>##      speed           dist    
-##  Min.   : 4.0   Min.   :  2  
-##  1st Qu.:12.0   1st Qu.: 26  
-##  Median :15.0   Median : 36  
-##  Mean   :15.4   Mean   : 43  
-##  3rd Qu.:19.0   3rd Qu.: 56  
-##  Max.   :25.0   Max.   :120</code></pre>
-<p>You can also embed plots, for example:</p>
-<p><img src="data:image/png;base64,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570HTtU0jInxCSg5O19D3yf0OqCffvcuuR96ee8BAWU6AkrezjuVX4d7oIOj8sED9kCZlICSv31Ed/W7cw70dIbz/I2vPuAcKOMTULJ1HLzUOYRw18DTA/sRTt2oz+83P/HqA67CMz4BJV/r09WjS0CPx/DHlG4ud2wehjHde+CQzdOIehiRgJKv0+1E+/p9Pt6JdLqv6HSf0WEPc324A+nuA6cx+ALK2ASUjK0vV9SPFfxf13OFbHvX3L8+fuC/XERidAJKxv6dpg453E/UXXrf9vs5mK/pzgPHHzAbExMQULJ2HMV0uBB0Grt0daXoMFT08+sP7CtsPlCmIKCUozcOFHIgoJRDQMmMgFIOASUzAko5BJTMCCjlEFAyI6CUQ0DJjIACBAkoQJCAAgQJKECQgAIECShAkIACBAkoQJCAAgQJKECQgAIECShAkIACBAkoQJCAAgQJKECQgAIECShAkIACBAkoQJCAAgQJKECQgAIECShAkIACBAkoQJCAAgQJKECQgAIECShAkIACBAkoQJCAAgQJKECQgAIECShAkIACBAkoQJCAAgQJKECQgAIECShAkIACBP1/kS1gLD4F+BoAAAAASUVORK5CYII=" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" width="672" /></p>
+</div>
+<div id="acknowledgement" class="section level1">
+<h1>Acknowledgement</h1>
+<p>We would like to thank the original researchers for sharing the data of thier research.</p>
+<p>If you are planning to use this work or any part of this research do not forget to acknowledge the original publishers</p>
+<p>License text has been pasted at the tail of this document for the reference</p>
 </div>
 <div id="license" class="section level1">
 <h1>License:</h1>

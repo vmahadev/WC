@@ -7,6 +7,26 @@ output: html_document
 
 ##Procedure Steps##
 
+##Task: ##
+###Prepare a tidydata set from the given dataset and documentation made available###
+
+Disclaimer : Code book for each variable is missing
+Visit google android web site to collect the details 
+(references have been made in the codebook.md prepared as part of this task)
+
+Task has been further divided as below
+
+    1. Inspect and clean up Standard Lists files(Reference Tables)
+    2. Combine Labelled Activity from Training and Test set
+    3. Selection and Transformation of Features List
+    4. Extract Subjects Identity Column 
+    5. Extract Captured Sensor and Computed data extraction for the selected features list
+    6. Merge step 3- 2 & 5  -> Tidy Data
+    7. Write dataset to tidydata.txt 
+    8. Calculate mean of all the variables[https://class.coursera.org/getdata-006/forum/thread?thread_id=299]
+    9. Write Summary dataset 
+
+
 ###Data Inspection###
 
 Load all reference tables
@@ -178,6 +198,8 @@ Though these functions returns values expected when run on the data frame failed
 ```r
 #a. Transformation of Feature names
     #Remove open brackets
+    dfModifiedFeatureList<-dfFeatureList
+
     dfModifiedFeatureList$Feature<-sub("\\(","",dfFeatureList$Feature)
 
     #Remove closing brackets
@@ -221,17 +243,6 @@ Though these functions returns values expected when run on the data frame failed
     #Require sorting of code hence Sort using arrange 
 
     require(plyr)
-```
-
-```
-## Loading required package: plyr
-```
-
-```
-## Warning: package 'plyr' was built under R version 3.0.3
-```
-
-```r
     dfModifiedFeatureList<-arrange(dfModifiedFeatureList,Code)
 ```
 
@@ -279,6 +290,8 @@ fBodyGyro-mean()-X: 424,425,426,427,428,429
 fBodyAccMag-mean(): 503,504 			            
 
 Angles: 555,556,557,558,559,560,561
+
+In addtion meanFreq have been selected 
 
 
 ```r
@@ -417,24 +430,222 @@ levels(factor(Subjects))
   #a. Combine Subjects from Step 2, Labelled Activity from Step 1 and   
   WearableCompTidyDataset<-data.frame(Subjects,Activity,CapturedDataCombined[,SelectedFieldsOfMeasurementMeanStdValues])
   CapturedData<-CapturedDataCombined[,SelectedFieldsOfMeasurementMeanStdValues]
-  WearableCompTidyDatasetV<-cbind(Subjects,Activity,CapturedData) 
   
   #b. Update Column names
   colnames(WearableCompTidyDataset)<-ColNames
 ```
 
+Sort on Subjects
+Write to file (intermediate results)
 
-# Write tidydata.txt file using write.table#
+#INTERESTING OBSERVATION FOR THE EYES OF THE BEHOLDER#
+
 
 ```r
-  #.a Generate file name
-    fileName<-paste0("tidyDataWC",format(Sys.time(),"%a_%Y_%b_%d_%H_%M_%S.txt"))  
- #.b write 
-    #nCols <- ncol(WearableCompTidyDataset)
-    #write(as.vector(WearableCompTidyDatasetV),file=fileName,ncolumns=nCols,sep=",")
-    fileName<-paste0("tidyDataWC",format(Sys.time(),"%a_%Y_%b_%d_%H_%M_%S.txt"))  
-    write.table(WearableCompTidyDataset,file=fileName,sep=",")
+    wout<-WearableCompTidyDataset[order(WearableCompTidyDataset$Subject),]
+  
+    #Just to create the interest
+    table(wout$Subject,wout$Activity)
 ```
+
+```
+##     
+##      WALKING WALKING_UPSTAIRS WALKING_DOWNSTAIRS SITTING STANDING LAYING
+##   1       95               53                 49      47       53     50
+##   2       59               48                 47      46       54     48
+##   3       58               59                 49      52       61     62
+##   4       60               52                 45      50       56     54
+##   5       56               47                 47      44       56     52
+##   6       57               51                 48      55       57     57
+##   7       57               51                 47      48       53     52
+##   8       48               41                 38      46       54     54
+##   9       52               49                 42      50       45     50
+##   10      53               47                 38      54       44     58
+##   11      59               54                 46      53       47     57
+##   12      50               52                 46      51       61     60
+##   13      57               55                 47      49       57     62
+##   14      59               54                 45      54       60     51
+##   15      54               48                 42      59       53     72
+##   16      51               51                 47      69       78     70
+##   17      61               48                 46      64       78     71
+##   18      56               58                 55      57       73     65
+##   19      52               40                 39      73       73     83
+##   20      51               51                 45      66       73     68
+##   21      52               47                 45      85       89     90
+##   22      46               42                 36      62       63     72
+##   23      59               51                 54      68       68     72
+##   24      58               59                 55      68       69     72
+##   25      74               65                 58      65       74     73
+##   26      59               55                 50      78       74     76
+##   27      57               51                 44      70       80     74
+##   28      54               51                 46      72       79     80
+##   29      53               49                 48      60       65     69
+##   30      65               65                 62      62       59     70
+```
+
+```r
+    #clean up
+  
+    rm(WearableCompTidyDataset)
+
+    # write tidydata.txt file
+  
+    
+    #.a Generate file name
+    
+    fileName<-paste0("tidyDataWC",format(Sys.time(),"%a_%Y_%b_%d_%H_%M_%S.txt"))  
+ 
+    #.b write 
+    
+    
+    #as per the instruction used write.table
+    
+    # 7. Calculate Mean of all the variables
+    write.table(wout,file=fileName,row.names=F)
+  
+    require(reshape)
+```
+
+Calculate mean of all the varaibles (Please check my post)
+
+
+```r
+  x <- melt(wout, id=1:2, measured=3:76)
+    
+  SummaryDS<-cast(x, Activity + Subject ~ variable, mean)
+```
+
+
+```r
+    # The below method is the fastest but the above used for flexibility
+    
+    #check time & verify
+    
+    #dt<-data.table(wout)
+    
+    #x<-dt[,list(mean(td_bodyacc_mean_x),mean(td_bodyacc_mean_y),mean(td_bodyacc_mean_z),  
+    #             mean(td_bodyacc_std_x),mean(td_bodyacc_std_y),mean(td_bodyacc_std_z),
+    #             mean(td_gravityacc_mean_x),mean(td_gravityacc_mean_y),
+    #             mean(td_gravityacc_mean_z),mean(td_gravityacc_std_x),	
+    #             mean(td_gravityacc_std_y),mean(td_gravityacc_std_z),
+    #             mean(td_bodyaccjerk_mean_x),mean(td_bodyaccjerk_mean_y),
+    #             mean(td_bodyaccjerk_mean_z),mean(td_bodyaccjerk_std_x),
+    #             mean(td_bodyaccjerk_std_y),mean(td_bodyaccjerk_std_z),
+    #             mean(td_bodygyro_mean_x),mean(td_bodygyro_mean_y),
+    #             mean(td_bodygyro_mean_z),mean(td_bodygyro_std_x),
+    #             mean(td_bodygyro_std_y),mean(td_bodygyro_std_z),
+    #             mean(td_bodygyrojerk_mean_x),mean(td_bodygyrojerk_mean_y),
+    #             mean(td_bodygyrojerk_std_y),mean(td_bodygyrojerk_std_z),
+    #             mean(td_bodyaccmag_mean),mean(td_bodyaccmag_std),
+    #             mean(td_gravityaccmag_mean),mean(td_gravityaccmag_std),
+    #             mean(td_bodyaccjerkmag_mean),mean(td_bodyaccjerkmag_std),
+    #             mean(td_bodygyromag_mean),mean(td_bodygyromag_std),
+    #             mean(td_bodygyrojerkmag_mean),mean(td_bodygyrojerkmag_std),
+    #             mean(fd_bodyacc_mean_x),mean(fd_bodyacc_mean_y),
+    #             mean(fd_bodyacc_mean_z),mean(fd_bodyacc_std_x),
+    #             mean(fd_bodyacc_std_y),mean(fd_bodyacc_std_z),
+    #             mean(fd_bodyaccjerk_mean_x),mean(fd_bodyaccjerk_mean_y),
+    #             mean(fd_bodyaccjerk_mean_z),mean(fd_bodyaccjerk_std_x),
+    #             mean(fd_bodyaccjerk_std_y),mean(fd_bodyaccjerk_std_z),
+    #             mean(fd_bodyaccjerk_meanfreq_x),mean(fd_bodyaccjerk_meanfreq_y),
+    #             mean(fd_bodyaccjerk_meanfreq_z),mean(fd_bodygyro_mean_x),
+    #             mean(fd_bodygyro_mean_y),mean(fd_bodygyro_mean_z),
+    #             mean(fd_bodygyro_std_x),mean(fd_bodygyro_std_y),
+    #             mean(fd_bodygyro_std_z),mean(fd_bodygyro_meanfreq_x),
+    #             mean(fd_bodygyro_meanfreq_y),mean(fd_bodygyro_meanfreq_z),	
+    #             mean(fd_bodyaccmag_mean),mean(fd_bodyaccmag_std),	
+    #             mean(fd_bodyaccmag_meanfreq),mean(angle_td_bodyaccmean_gravity),
+    #             mean(angle_td_bodyaccjerkmean_gravitymean),mean(angle_td_bodygyromean_gravitymean),
+    #             mean(angle_td_bodygyrojerkmean_gravitymean),mean(angle_x_gravitymean),
+    #             mean(angle_y_gravitymean),mean(angle_z_gravitymean)),by=c("Activity","Subject")]
+
+    
+    #cleanup
+    
+    rm("wout")
+```
+    
+
+Sort on Activity and Subject
+
+
+```r
+    SummaryFeatureMeasures <- SummaryDS[order(SummaryDS$Activity,SummaryDS$Subject),]
+    
+    
+    #Copy selected Feature Measures
+    
+    ColMeanNames<-ColNames
+    
+    
+    #Prefix with mean_
+    
+    for(i in 3:length(ColNames))
+    
+      ColMeanNames[i]=paste0("mean_",ColNames[i])
+    
+    
+    #set the column names prefixed with a mean_
+    
+    colnames(SummaryFeatureMeasures)<-ColMeanNames
+```
+
+    
+Generate a new filename with time and date stamp
+    
+
+```r
+fileName<-paste0("TidyDataMeans_",format(Sys.time(),"%a_%Y_%b_%d_%H_%M_%S.txt")) 
+fileName
+```
+
+```
+## [1] "TidyDataMeans_Sun_2014_Aug_24_18_41_28.txt"
+```
+
+Write to file 
+
+
+```r
+#write to file 
+    
+write.table(SummaryFeatureMeasures,file=fileName,row.names=F)
+
+#Final Cleanup
+    
+rm("ColMeanNames","SummaryDS","SummaryFeatureMeasures","x","ColNames","FieldNames","SelectedFieldsOfMeasurementMeanStdValues","i","fileName")
+
+#Just to Verify is any garbage leftout
+ls()
+```
+
+```
+##  [1] "acc_x_train"             "acc_y_train"            
+##  [3] "acc_z_train"             "Activity"               
+##  [5] "ActivityLabels"          "CapturedData"           
+##  [7] "CapturedDataCombined"    "CapturedDataTestSet"    
+##  [9] "CapturedDataTrainingSet" "dd"                     
+## [11] "dfActivityLabels"        "dfFeatureList"          
+## [13] "dfModifiedFeatureList"   "l"                      
+## [15] "resultset"               "Subjects"               
+## [17] "SubjectsFromTainingSet"  "SubjectsFromTestSet"    
+## [19] "yTestActivityLabels"     "yTrainingActivityLabels"
+```
+
+
+We are done with this assignment.
+
+Thanks for assessing 
+
+Please do leave your feedback 
+
+Happy Wearable Computing :)
+
+Thanks 
+
+
+========================
+
 
 
 

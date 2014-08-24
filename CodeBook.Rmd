@@ -4,171 +4,71 @@ author: "V.Mahadev"
 date: "Friday, August 22, 2014"
 output: html_document
 ---
-# Wearble Computing #
+# Wearable Computing #
 
 ##Data Set : Human Activity Recognition Using Smart Phones  ##
 ###(The Code Book) - Tidydata.txt###
 
+This code book has the following sections
+
+  1. Data Dictionary or Code book  of Tidydata.txt
+    
+      - This table has four headings (ColumnName, DataType, Description, Values)
+ 
+  2. Data Dictionary or Code book of TidySummaryData.txt
+    
+      - This is the same as the above dictionary but mean average of each variables has been calculated hence prefixed with mean_
+    
+  3. Units of Measure
+ 
+  4. Further reading and refernces
+ 
+  5. References and Information Sources (Source Data Information)
+  
+  6. Acknowledgement
+  
+  7. License of original data sample publishers
+ 
+###Tidydata.txt - Code Book###
+
 *Attributes:*
 
-**Name**                    |   **Description**
+```{recho=FALSE}
+dd<-read.csv("CodeBookAttributes.csv",head=T)
+print(dd)
+#require(knitr)
+#kable(dd, "html", table.attr = "id=\"datadict_table\"")
+#options(markdown.HTML.header = system.file("misc", "datatables.html", package = "knitr"))
+#render(DataDict.html)
+```
 
-----------------------------|-------------------------------------------------------
 
-Subject                     | Subjects Identity Column (Width 2 Digit)
+Unit of Measure
+==================
 
-Activity                    | Labled Activity 
-                              VALUES (WALKING,WALKING_UPSTAIRS,WALKING_DOWNSTAIRS,SITTING, STANDING, LAYING
+*NOTE : All data unless otherwise mentioned are double and all forces and magnitudes are in m/s2 and angles are in radians/second*
 
-td_bodyacc_mean_x	          | Body acceleration mean value of X - direction
 
-td_bodyacc_mean_y	          | Body acceleration mean value of Y - direction
+Further Reading and references
+=================================
 
-td_bodyacc_mean_z	          | Body acceleration mean value of Z - direction
+Complete technical documentation with sample code available at the following link 
 
-td_bodyacc_std_x            |	Body acceleration std value of X - direction
+  Sensors Data Acquisition for Android Devices[http://developer.android.com/guide/topics/sensors/sensors_motion.html]
+  
+  A primer on Co-ordinate system [http://developer.android.com/guide/topics/sensors/sensors_overview.html#sensors-coords]
+The gyroscope measures the rate or rotation in rad/s around a device's x, y, and z axis
 
-td_bodyacc_std_y	          | Body acceleration std value of Y - direction
+The units are the same as those used by the acceleration sensor (m/s2), and the coordinate system is the same as the one used by the acceleration sensor.
 
-td_bodyacc_std_z	          | Body acceleration std value of Z - direction
+-If you push the device on the left side (so it moves to the right), the x acceleration value is positive.
+-If you push the device on the bottom (so it moves away from you), the y acceleration value is positive.
+-If you push the device toward the sky with an acceleration of A m/s2, the z acceleration value is equal to A + 9.81, which corresponds to the acceleration of the device (+A m/s2) minus the force of gravity (-9.81 m/s2).
 
-td_gravityacc_mean_x	      | Linear acceleration affected by the gravitational force for XY and Z direction 
+The stationary device will have an acceleration value of +9.81, which corresponds to the acceleration of the device (0 m/s2 minus the force of gravity, which is -9.81 m/s2).
 
-td_gravityacc_mean_y	      |
-
-td_gravityacc_mean_z	      |
-
-td_gravityacc_std_x	        | Linear acceleration affected by the gravitational force for XY and Z direction std dev values
-td_gravityacc_std_y	        |
-
-td_gravityacc_std_z	        |
-
-td_bodyaccjerk_mean_x	      | Feature extracted a computed value Body Jerk 
-
-td_bodyaccjerk_mean_y	      | X Y and Z directions its mean value
-
-td_bodyaccjerk_mean_z	      |
-
-td_bodyaccjerk_std_x	      |
-
-td_bodyaccjerk_std_y	      |
-
-td_bodyaccjerk_std_z	      |
-
-td_bodygyro_mean_x	        | Feature extracted of Angular motion mean values
-
-td_bodygyro_mean_y	        |
-
-td_bodygyro_mean_z	        |
-
-td_bodygyro_std_x	          |Feature extracted of Angular motion standard deviation
-
-td_bodygyro_std_y	          |values
-
-td_bodygyro_std_z	          |
-
-td_bodygyrojerk_mean_x	    |Feature extracted of Angular jerk mean values
-
-td_bodygyrojerk_mean_y	    |
-
-td_bodygyrojerk_mean_z	    |
-
-td_bodygyrojerk_std_x	      |Feature extracted of Angular jerk standard deviation
-
-td_bodygyrojerk_std_y	      |Values in X Y Z directions
-
-td_bodygyrojerk_std_z	      |
-
-td_bodyaccmag_mean	        | Body Acceleration Magnitude Mean Value
-
-td_bodyaccmag_std	          | Body Acceleration Magnitude Std.Dev. Value
-
-td_gravityaccmag_mean	      | Gravity - Magnitude (Sensor Value) Mean and Std.Dev.
-
-td_gravityaccmag_std	      |
-
-td_bodyaccjerkmag_mean	    | Body Acc Jerk Magnitude Mean and Std.Dev. Values
-
-td_bodyaccjerkmag_std	      |
-
-td_bodygyromag_mean	        | Body Angular Movement Magnitude Mean and Std.Dev.
-
-td_bodygyromag_std	        | Values
-
-td_bodygyrojerkmag_mean	    | Body Angular Jerk Magnitude mean and std. dev.
-
-td_bodygyrojerkmag_std	    |
-
-fd_bodyacc_mean_x	          | Frequency Domain Values
-
-fd_bodyacc_mean_y	          |
-
-fd_bodyacc_mean_z	          |
-
-fd_bodyacc_std_x	          |
-
-fd_bodyacc_std_y	          |
-
-fd_bodyacc_std_z	          |
-
-fd_bodyaccjerk_mean_x	      |
-
-fd_bodyaccjerk_mean_y	      |
-
-fd_bodyaccjerk_mean_z	      |
-
-fd_bodyaccjerk_std_x	      |
-
-fd_bodyaccjerk_std_y	      |
-
-fd_bodyaccjerk_std_z	      |
-
-fd_bodyaccjerk_meanfreq_x	  |
-
-fd_bodyaccjerk_meanfreq_y	  |
-
-fd_bodyaccjerk_meanfreq_z	  |
-
-fd_bodygyro_mean_x	        |
-
-fd_bodygyro_mean_y	        |
-
-fd_bodygyro_mean_z	        |
-
-fd_bodygyro_std_x	          |
-
-fd_bodygyro_std_y	          |
-
-fd_bodygyro_std_z	          |
-
-fd_bodygyro_meanfreq_x	    |
-
-fd_bodygyro_meanfreq_y	    |
-
-fd_bodygyro_meanfreq_z	    |
-
-fd_bodyaccmag_mean	        |
-
-fd_bodyaccmag_std	          |
-
-fd_bodyaccmag_meanfreq	    | 
-
-angle_td_bodyaccmean_gravity|	 Angular Measurement b/w Body Acceleration & Gravity
-
-angle_td_bodyaccjerkmean_gravitymean|	Angular Measurement b/w BodyAccJerk and Gravitational Component
-
-angle_td_bodygyromean_gravitymean| Angular Measure b/w bodyGyro and Gravity component
-
-angle_td_bodygyrojerkmean_gravitymean|	Angle Measure b/w body gyro jerk and Gravity component
-
-angle_x_gravitymean         | Angle X component Gravity mean
-
-angle_y_gravitymean         |	Angle Y component Gravity mean 
-
-angle_z_gravitymean         | Angle Z component Gravity mean
-
-NOTE : All data unless otherwise mentioned are double 
-
+SOURCE DATA
+==============
 For further details and readings 
 =================================
 
@@ -210,7 +110,7 @@ The following files are available for the train and test data. Their description
 
 - 'train/Inertial Signals/body_acc_x_train.txt': The body acceleration signal obtained by subtracting the gravity from the total acceleration. 
 
-- 'train/Inertial Signals/body_gyro_x_train.txt': The angular velocity vector measured by the gyroscope for each window sample. The units are radians/second. 
+- 'train/Inertial Signals/body_gyro_x_train.txt': The angular velocity vector measured by the gyroscope for each window sample. The units are **radians/second**. 
 
 Notes: 
 ======
@@ -220,19 +120,14 @@ Notes:
 
 For more information about this dataset contact: activityrecognition@smartlab.ws
 
-```{r}
-summary(cars)
-```
+Acknowledgement
+===============
 
-You can also embed plots, for example:
+We would like to thank the original researchers for sharing the data of thier research.
 
-```{r, echo=FALSE}
-plot(cars)
-```
+If you are planning to use this work or any part of this research do not forget to acknowledge the original publishers
 
-
-
-
+License text has been pasted at the tail of this document for the reference
 
 License:
 ========
