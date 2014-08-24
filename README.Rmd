@@ -154,6 +154,7 @@ Though these functions returns values expected when run on the data frame failed
 ```
 
 #Selection of Measures#
+###STEP 4:###
 ##To prepare the tidydata.txt for analysis##
 
 As per the problem statement need to extract only standard and mean values of each measure (feature) and since its a three dimensional space movement and activity observation we need to have ***magnitude, angle and directions values***.
@@ -217,10 +218,8 @@ Angles: 555,556,557,558,559,560,561
 
 Inspect the values
 
-#4. Extract Subjects #
-###STEP 1:###
-
-#.Subjects Identity Column 
+#5. Extract Subjects #
+###STEP 5:Subjects Identity Column ###
 ```{r}
     #a.Read Subjects Identity Column from the Training Set
     SubjectsFromTainingSet<-read.table('data/train/subject_train.txt')
@@ -233,6 +232,50 @@ Inspect the values
 length(Subjects)
 levels(factor(Subjects))
 ```
+
+#6. Captured Sensor and Computed data extraction#
+###STEP 6:Combine both Training and Test datasets###
+
+```{r}   
+  #a. Read Captured Sensor and Computed data from the Training Set
+  CapturedDataTrainingSet <- read.table('data/train/x_train.txt',)
+
+  #b.Read Captured Sensor and Computed data from the Test Set
+  CapturedDataTestSet <- read.table('data/test/x_test.txt')
+
+  #c.Combine Captured Sensor and Computed data of both Trainig and The Test Set
+  #CapturedDataCombined <- rbind(CapturedDataTrainingSet,CapturedDataTestSet)
+  CapturedDataCombined <- mapply(c,CapturedDataTrainingSet,CapturedDataTestSet)
+```
+
+#6. Final Step - Merge -> Tidy Data#
+### Combining 1. Subjects Identity Column###
+###           2. Labled Activity Column  <- from (4.c)###
+###           3. Captured and Computed Std and Means plus Angles and Freq Component Columns <- from (5.c)###
+    
+```{r}
+  #a. Combine Subjects from Step 2, Labelled Activity from Step 1 and   
+  WearableCompTidyDataset<-data.frame(Subjects,Activity,CapturedDataCombined[,SelectedFieldsOfMeasurementMeanStdValues])
+  CapturedData<-CapturedDataCombined[,SelectedFieldsOfMeasurementMeanStdValues]
+  WearableCompTidyDatasetV<-cbind(Subjects,Activity,CapturedData) 
+  
+  #b. Update Column names
+  colnames(WearableCompTidyDataset)<-ColNames
+```
+
+
+# Write tidydata.txt file using write.table#
+```{r}
+  #.a Generate file name
+    fileName<-paste0("tidyDataWC",format(Sys.time(),"%a_%Y_%b_%d_%H_%M_%S.txt"))  
+ #.b write 
+    #nCols <- ncol(WearableCompTidyDataset)
+    #write(as.vector(WearableCompTidyDatasetV),file=fileName,ncolumns=nCols,sep=",")
+    fileName<-paste0("tidyDataWC",format(Sys.time(),"%a_%Y_%b_%d_%H_%M_%S.txt"))  
+    write.table(WearableCompTidyDataset,file=fileName,sep=",")
+```
+
+
 
 
 This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.

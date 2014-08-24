@@ -115,65 +115,71 @@
 
   #a. Combine Subjects from Step 2, Labelled Activity from Step 1 and   
   WearableCompTidyDataset<-data.frame(Subjects,Activity,CapturedDataCombined[,SelectedFieldsOfMeasurementMeanStdValues])
-  CapturedData<-CapturedDataCombined[,SelectedFieldsOfMeasurementMeanStdValues]
-  WearableCompTidyDatasetV<-cbind(Subjects,Activity,CapturedData) 
+  #CapturedData<-CapturedDataCombined[,SelectedFieldsOfMeasurementMeanStdValues]
+  #WearableCompTidyDatasetV<-cbind(Subjects,Activity,CapturedData) 
   
   #b. Update Column names
   colnames(WearableCompTidyDataset)<-ColNames
+    w<-WearableCompTidyDataset[order(WearableCompTidyDataset$Subject),]
     
 # write tidydata.txt file
   #.a Generate file name
     fileName<-paste0("tidyDataWC",format(Sys.time(),"%a_%Y_%b_%d_%H_%M_%S.txt"))  
  #.b write 
-    nCols <- ncol(WearableCompTidyDataset)
-    write(as.vector(WearableCompTidyDatasetV),file=fileName,ncolumns=nCols,sep=",")
+    #nCols <- ncol(WearableCompTidyDataset)
+    #write(as.vector(WearableCompTidyDatasetV),file=fileName,ncolumns=nCols,sep=",")
     fileName<-paste0("tidyDataWC",format(Sys.time(),"%a_%Y_%b_%d_%H_%M_%S.txt"))  
-    write.table(WearableCompTidyDataset,file=fileName,sep=",")
+    write.table(w,file=fileName,row.names=F)
+  
+    library(reshape2)
+    x <- melt(w, id=1:2, measured=3:76)
+    summaryDS<-cast(x, Activity + Subject ~ variable, mean)
     
-    dt<-data.table(WearableCompTidyDataset)
-    tt<-dt[,list(mean(td_bodyacc_mean_x),mean(td_bodyacc_mean_y),mean(td_bodyacc_mean_z),	
-                 mean(td_bodyacc_std_x),mean(td_bodyacc_std_y),mean(td_bodyacc_std_z),
-                 mean(td_gravityacc_mean_x),mean(td_gravityacc_mean_y),
-                 mean(td_gravityacc_mean_z),mean(td_gravityacc_std_x),	
-                 mean(td_gravityacc_std_y),mean(td_gravityacc_std_z),
-                 mean(td_bodyaccjerk_mean_x),mean(td_bodyaccjerk_mean_y),
-                 mean(td_bodyaccjerk_mean_z),mean(td_bodyaccjerk_std_x),
-                 mean(td_bodyaccjerk_std_y),mean(td_bodyaccjerk_std_z),
-                 mean(td_bodygyro_mean_x),mean(td_bodygyro_mean_y),
-                 mean(td_bodygyro_mean_z),mean(td_bodygyro_std_x),
-                 mean(td_bodygyro_std_y),mean(td_bodygyro_std_z),
-                 mean(td_bodygyrojerk_mean_x),mean(td_bodygyrojerk_mean_y),
-                 mean(td_bodygyrojerk_mean_z),mean(td_bodygyrojerk_std_x),
-                 mean(td_bodygyrojerk_std_y),mean(td_bodygyrojerk_std_z),
-                 mean(td_bodyaccmag_mean),mean(td_bodyaccmag_std),
-                 mean(td_gravityaccmag_mean),mean(td_gravityaccmag_std),
-                 mean(td_bodyaccjerkmag_mean),mean(td_bodyaccjerkmag_std),
-                 mean(td_bodygyromag_mean),mean(td_bodygyromag_std),
-                 mean(td_bodygyrojerkmag_mean),mean(td_bodygyrojerkmag_std),
-                 mean(fd_bodyacc_mean_x),mean(fd_bodyacc_mean_y),
-                 mean(fd_bodyacc_mean_z),mean(fd_bodyacc_std_x),
-                 mean(fd_bodyacc_std_y),mean(fd_bodyacc_std_z),
-                 mean(fd_bodyaccjerk_mean_x),mean(fd_bodyaccjerk_mean_y),
-                 mean(fd_bodyaccjerk_mean_z),mean(fd_bodyaccjerk_std_x),
-                 mean(fd_bodyaccjerk_std_y),mean(fd_bodyaccjerk_std_z),
-                 mean(fd_bodyaccjerk_meanfreq_x),mean(fd_bodyaccjerk_meanfreq_y),
-                 mean(fd_bodyaccjerk_meanfreq_z),mean(fd_bodygyro_mean_x),
-                 mean(fd_bodygyro_mean_y),mean(fd_bodygyro_mean_z),
-                 mean(fd_bodygyro_std_x),mean(fd_bodygyro_std_y),
-                 mean(fd_bodygyro_std_z),mean(fd_bodygyro_meanfreq_x),
-                 mean(fd_bodygyro_meanfreq_y),mean(fd_bodygyro_meanfreq_z),	
-                 mean(fd_bodyaccmag_mean),mean(fd_bodyaccmag_std),	
-                 mean(fd_bodyaccmag_meanfreq),mean(angle_td_bodyaccmean_gravity),
-                 mean(angle_td_bodyaccjerkmean_gravitymean),mean(angle_td_bodygyromean_gravitymean),
-                 mean(angle_td_bodygyrojerkmean_gravitymean),mean(angle_x_gravitymean),
-                mean(angle_y_gravitymean),mean(angle_z_gravitymean)),by=c("Activity","Subject")]
+    #check time
+    #dt<-data.table(w)
+    #tt<-dt[,list(mean(td_bodyacc_mean_x),mean(td_bodyacc_mean_y),mean(td_bodyacc_mean_z),	
+     #            mean(td_bodyacc_std_x),mean(td_bodyacc_std_y),mean(td_bodyacc_std_z),
+    #             mean(td_gravityacc_mean_x),mean(td_gravityacc_mean_y),
+    #             mean(td_gravityacc_mean_z),mean(td_gravityacc_std_x),	
+    #             mean(td_gravityacc_std_y),mean(td_gravityacc_std_z),
+    #             mean(td_bodyaccjerk_mean_x),mean(td_bodyaccjerk_mean_y),
+    #             mean(td_bodyaccjerk_mean_z),mean(td_bodyaccjerk_std_x),
+     #            mean(td_bodyaccjerk_std_y),mean(td_bodyaccjerk_std_z),
+    #             mean(td_bodygyro_mean_x),mean(td_bodygyro_mean_y),
+    #             mean(td_bodygyro_mean_z),mean(td_bodygyro_std_x),
+    #             mean(td_bodygyro_std_y),mean(td_bodygyro_std_z),
+    #             mean(td_bodygyrojerk_mean_x),mean(td_bodygyrojerk_mean_y),
+    #             mean(td_bodygyrojerk_std_y),mean(td_bodygyrojerk_std_z),
+    #             mean(td_bodyaccmag_mean),mean(td_bodyaccmag_std),
+    #             mean(td_gravityaccmag_mean),mean(td_gravityaccmag_std),
+    #             mean(td_bodyaccjerkmag_mean),mean(td_bodyaccjerkmag_std),
+    #             mean(td_bodygyromag_mean),mean(td_bodygyromag_std),
+    #             mean(td_bodygyrojerkmag_mean),mean(td_bodygyrojerkmag_std),
+    #             mean(fd_bodyacc_mean_x),mean(fd_bodyacc_mean_y),
+    #             mean(fd_bodyacc_mean_z),mean(fd_bodyacc_std_x),
+    #             mean(fd_bodyacc_std_y),mean(fd_bodyacc_std_z),
+    #             mean(fd_bodyaccjerk_mean_x),mean(fd_bodyaccjerk_mean_y),
+    #             mean(fd_bodyaccjerk_mean_z),mean(fd_bodyaccjerk_std_x),
+     #            mean(fd_bodyaccjerk_std_y),mean(fd_bodyaccjerk_std_z),
+    #             mean(fd_bodyaccjerk_meanfreq_x),mean(fd_bodyaccjerk_meanfreq_y),
+    #             mean(fd_bodyaccjerk_meanfreq_z),mean(fd_bodygyro_mean_x),
+    #             mean(fd_bodygyro_mean_y),mean(fd_bodygyro_mean_z),
+    #             mean(fd_bodygyro_std_x),mean(fd_bodygyro_std_y),
+    #             mean(fd_bodygyro_std_z),mean(fd_bodygyro_meanfreq_x),
+    #             mean(fd_bodygyro_meanfreq_y),mean(fd_bodygyro_meanfreq_z),	
+    #             mean(fd_bodyaccmag_mean),mean(fd_bodyaccmag_std),	
+     ##            mean(fd_bodyaccmag_meanfreq),mean(angle_td_bodyaccmean_gravity),
+      #           mean(angle_td_bodyaccjerkmean_gravitymean),mean(angle_td_bodygyromean_gravitymean),
+      #           mean(angle_td_bodygyrojerkmean_gravitymean),mean(angle_x_gravitymean),
+  #              mean(angle_y_gravitymean),mean(angle_z_gravitymean)),by=c("Activity","Subject")]
+  #  
+    #tt<- tt[order(tt$Activity,tt$Subject)]
+    #ColMeanNames<-ColNames
+    #for(i in 1:length(ColNames))
+    #  ColMeanNames[i]=paste0("Mean.",ColNames[i])
     
-    tt[order(tt$Activity,tt$Subject)]
-    ColMeanNames<-ColNames
-    for(i in 1:length(ColNames))
-      ColMeanNames[i]=paste0("Mean.",ColNames[i])
+  #  colnames(tt)<-ColMeanNames
     
-    colnames(tt)<-ColMeanNames
     fileName<-paste0("measuremeansWC",format(Sys.time(),"%a_%Y_%b_%d_%H_%M_%S.txt")) 
     write.table(tt,file=fileName,sep=",")
     
